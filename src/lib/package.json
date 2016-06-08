@@ -1,0 +1,12 @@
+{ "name": "fi-impact",
+  "version": "0.0.1",
+  "dependencies": 
+	{
+		"jade": "0.4.1",
+		"qminer": "5.2.0", 
+		"qminer-data-loader": "1.0.5", 
+		"delaunay-triangulate":"1.1.6", 
+		"express":"4.13.4", 
+		"body-parser":"1.15.1"
+	}
+}
