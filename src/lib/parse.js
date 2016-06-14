@@ -21,10 +21,12 @@ exports.extract_series_json = function(ts, fs, lbl) {
 	    }
         }
         // moving window
-        if (fs.hasOwnProperty("win")) {
-            for (var j=1; j<=fs.win; j++ ) {
-                ef["win_"+j+"_"+lbl] = ts[i-j].count;
-            }
+        if (fs.hasOwnProperty("win_val")) {
+	    if (fs["win_val"]) {
+                for (var j=1; j<=fs.win; j++ ) {
+                    ef["win_"+j+"_"+lbl] = ts[i-j].count;
+                }
+	    }
         }
         // simple moving sum
         if (fs.hasOwnProperty("sum")) {
