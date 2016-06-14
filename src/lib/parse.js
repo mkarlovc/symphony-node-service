@@ -48,6 +48,13 @@ exports.extract_series_json = function(ts, fs, lbl) {
                 ef["avg_"+lbl] = smsum/fs.win;
 	    }
         }
+        // derivative
+        if (fs.hasOwnProperty("der")) {
+            var last = ts[i-1].count;
+            for (var j=1; j<=fs.der; j++ ) {
+                ef["der_"+j+"_"+lbl] = last - ts[i-1-j].count;
+            }
+        }
         // collect
         efs[ts[i].date] = ef;
     }
