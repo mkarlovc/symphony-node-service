@@ -1,4 +1,6 @@
 var parse = require('./lib/parse.js');
+var analytics = require('./lib/analytics.js');
+
 var fs = {"win":5, "true":1, "sum":1, "avg":1};
 
 var indexes1 = [1,2,3,4,5,6,7,8,9,10,11,12];
@@ -30,4 +32,9 @@ console.log(allFeatures,allTicks);
 
 var ext = parse.extract([s1,s2,s3], allTicks, allFeatures);
 
-console.log(parse.to_array(ext));
+var ftr = analytics.create_featurespace(parse.to_array(ext));
+
+var mat = analytics.add_data(parse.to_array(ext), ftr);
+
+analytics.svr(mat);
+console.log(ftr);

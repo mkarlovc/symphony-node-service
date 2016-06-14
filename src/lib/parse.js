@@ -9,72 +9,55 @@ function clone(obj) {
     return copy;
 }
 
-exports.extract_series = function(ts, fs) {
-    var efs = [];
+exports.extract_series_json = function(ts, fs, lbl) {
+    var efs = {};
     for (var i=fs.win; i<ts.length; i++) {
-	var ef = {};
-	
-	// true value
-	if (fs.hasOwnProperty("true")) {
-	    ef["true"] = ts[i];
-	}
-        // moving window
-	if (fs.hasOwnProperty("win")) {
-	    for (var j=1; j<=fs.win; j++ ) {
-	        ef["win_"+j] = ts[i-j];
-	    }
-	}
-	// simple moving sum
-	if (fs.hasOwnProperty("sum")) {
-            var smsum = 0;
-            for (var j=1; j<=fs.win; j++ ) {
-                smsum += ts[i-j];
-            }
-            ef.sum = smsum;
-	}
-	// simple moving avg
-        if (fs.hasOwnProperty("avg")) { 
-	    var smsum = 0;
-            for (var j=1; j<=fs.win; j++ ) {
-                smsum += ts[i-j];
-            }
-            ef.avg = smsum/fs.win;
-	}
-        // collect
-        efs.push(ef);
-    }
-    return efs;
-};
+        var ef = {};
 
-exports.append_label = function(efs, label) {
-    var efs2 = [];
-    for (var i=0; i<efs.length; i++) {
-        var ef = efs[i];
-        var ef2 = {};
-        for (var property in ef) {
-            if (ef.hasOwnProperty(property)) {
-                ef2[property+"_"+label] = ef[property];
+        // true value
+        if (fs.hasOwnProperty("true")) {
+	    if (fs["true"]) {
+                ef["true_"+lbl] = ts[i].count;
+	    }
+        }
+        // moving window
+        if (fs.hasOwnProperty("win")) {
+            for (var j=1; j<=fs.win; j++ ) {
+                ef["win_"+j+"_"+lbl] = ts[i-j].count;
             }
         }
-        efs2.push(ef2);
+        // simple moving sum
+        if (fs.hasOwnProperty("sum")) {
+	    if (fs["sum"]) {
+                var smsum = 0;
+                for (var j=1; j<=fs.win; j++ ) {
+                    smsum += ts[i-j].count;
+                }
+                ef["sum_"+lbl] = smsum;
+	    }
+        }
+        // simple moving avg
+        if (fs.hasOwnProperty("avg")) {
+	    if (fs["avg"]) {
+                var smsum = 0;
+                for (var j=1; j<=fs.win; j++ ) {
+                    smsum += ts[i-j].count;
+                }
+                ef["avg_"+lbl] = smsum/fs.win;
+	    }
+        }
+        // collect
+        efs[ts[i].date] = ef;
     }
-    return efs2;
-}
-
-exports.append_index = function(efs, idxs) {
-    var efs2 = {};
-    for (var i=0; i<efs.length; i++) {
-        efs2[idxs[i]] = efs[i];
-    }
-    return efs2;
+    return efs;
 };
 
 exports.get_feature_set = function(efss) {
     var gfs = [];
     for (var i=0; i<efss.length; i++) {
         efs = efss[i];
-	for (var j=0; j<efs.length; j++) {
-	    var ef = efs[j];
+	for (var index in efs) {
+	    var ef = efs[index];
             for (var property in ef) {
 	        if (gfs.indexOf(property) == -1) {
                     gfs.push(property);
@@ -104,7 +87,8 @@ exports.extract = function(efs, ticks, features) {
 
     var newObj = {};
     for (var i=0; i<features.length; i++) {
-        newObj[features[i]] = null;
+        //newObj[features[i]] = null;
+	newObj[features[i]] = 0;
     }
 
     for (var i=0; i<ticks.length; i++) {
