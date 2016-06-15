@@ -43,6 +43,14 @@ exports.add_data = function(ext, ftr) {
     return matrix;
 }
 
+exports.mse = function(res) {
+    var sum = 0;
+    for (var i=0; i<res.length; i++) {
+        sum += Math.pow((res[i].predicted - res[i].actual), 2);
+    }
+    return Math.sqrt(sum)/res.length;
+}
+
 exports.svr = function(matrix) {
     var learning = matrix.getSubmatrix(1,matrix.rows,0,matrix.cols);
     var targets = matrix.getRow(0);
