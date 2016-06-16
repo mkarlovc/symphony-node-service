@@ -17,23 +17,23 @@ exports.extract_series_json = function(ts, fs, lbl) {
         // true value
         if (fs.hasOwnProperty("true")) {
 	    if (fs["true"]) {
-                ef["true_"+lbl] = ts[i].count;
+                ef["true_"+lbl] = parseFloat(ts[i].count);
 	    }
         }
         // moving window
         if (fs.hasOwnProperty("win_val")) {
 	    if (fs["win_val"]) {
                 for (var j=1; j<=fs.win; j++ ) {
-                    ef["win_"+j+"_"+lbl] = ts[i-j].count;
+                    ef["win_"+j+"_"+lbl] = parseFloat(ts[i-j].count);
                 }
 	    }
         }
         // simple moving sum
         if (fs.hasOwnProperty("sum")) {
 	    if (fs["sum"]) {
-                var smsum = 0;
+                var smsum = 0.0;
                 for (var j=1; j<=fs.win; j++ ) {
-                    smsum += ts[i-j].count;
+                    smsum += parseFloat(ts[i-j].count);
                 }
                 ef["sum_"+lbl] = smsum;
 	    }
@@ -41,18 +41,18 @@ exports.extract_series_json = function(ts, fs, lbl) {
         // simple moving avg
         if (fs.hasOwnProperty("avg")) {
 	    if (fs["avg"]) {
-                var smsum = 0;
+                var smsum = 0.0;
                 for (var j=1; j<=fs.win; j++ ) {
-                    smsum += ts[i-j].count;
+                    smsum += parseFloat(ts[i-j].count);
                 }
-                ef["avg_"+lbl] = smsum/fs.win;
+                ef["avg_"+lbl] = parseFloat(smsum)/parseFloat(fs.win);
 	    }
         }
         // derivative
         if (fs.hasOwnProperty("der")) {
-            var last = ts[i-1].count;
+            var last = parseFloat(ts[i-1].count);
             for (var j=1; j<=fs.der; j++ ) {
-                ef["der_"+j+"_"+lbl] = last - ts[i-1-j].count;
+                ef["der_"+j+"_"+lbl] = last - parseFloat(ts[i-1-j].count);
             }
         }
         // collect

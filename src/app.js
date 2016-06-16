@@ -15,6 +15,8 @@ app.post('/nc', function(req, res) {
 
     var indicator = data.indicator;
     var socialMedia = data.socialMedia;
+    console.log(indicator);
+    console.log(socialMedia);
 
     var fsIndicator = {"win":2, "win_val": true, "true": true, "sum":true, "avg":true, "der":1};
     var fsSm = {"win":2, "win_val": true, "true": true, "sum":true, "avg":true};
@@ -22,10 +24,12 @@ app.post('/nc', function(req, res) {
     var indicatorF = parse.extract_series_json(indicator, fsIndicator, "ind");
     var smFs = [];
     for (var i=0; i<socialMedia.length; i++) {
-        smFs.push(parse.extract_series_json(socialMedia[i], fsSm , "sm"+i));
+        smFs.push(parse.extract_series_json(socialMedia[i], fsSm , "sm"+i.toString()));
     }
 
-    var allF = smFs.unshift(indicatorF);
+    smFs.unshift(indicatorF);
+    var allF = smFs;    
+
     var allFeatures = parse.get_feature_set(allF);
     var allTicks = parse.get_ticks(allF);
     var ext = parse.extract(allF, allTicks, allFeatures);
@@ -34,6 +38,12 @@ app.post('/nc', function(req, res) {
     var mat = analytics.add_data(parse.to_array(ext), ftr);
     var pred = analytics.svr(mat);
     var mse = analytics.mse(pred);
+
+    var j=0;
+    for (var i=pred.length-1; i>=0; i--) {
+        pred[i].time = allTicks[allTicks.length-1-j];
+        j += 1;
+    }
 
     res.send({"pred":pred, "mse": mse});
 });

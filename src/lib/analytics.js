@@ -58,6 +58,7 @@ exports.svr = function(matrix) {
     var vec = [0];
     var out = [];
     for (var i=1; i<learning.cols; i++) {
+        console.log(i+"/"+(parseInt(learning.cols)-1.0));
 	var mat = learning.getSubmatrix(0, learning.rows, 0, i);
 	var tar = targets.subVec(vec);
         SVR.fit(mat, tar);
