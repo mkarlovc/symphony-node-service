@@ -46,7 +46,7 @@ exports.add_data = function(ext, ftr) {
 exports.mse = function(res) {
     var sum = 0;
     for (var i=0; i<res.length; i++) {
-        sum += Math.pow((res[i].predicted - res[i].actual), 2);
+        sum += Math.pow((res[i].count - res[i].actual), 2);
     }
     return Math.sqrt(sum)/res.length;
 }
@@ -61,11 +61,13 @@ exports.svr = function(matrix) {
         console.log(i+"/"+(parseInt(learning.cols)-1.0));
 	var mat = learning.getSubmatrix(0, learning.rows, 0, i);
 	var tar = targets.subVec(vec);
-        SVR.fit(mat, tar);
+        if (i < 10 || i%20==0) {
+            SVR.fit(mat, tar);
+        }
         var test = learning.getCol(i);
         var prediction = SVR.predict(test);
-	console.log({"predicted": prediction, "actual": targets.at(i)});
-	out.push({"predicted": prediction, "actual": targets.at(i)});
+	console.log({"count": prediction, "actual": targets.at(i)});
+	out.push({"count": prediction, "actual": targets.at(i)});
 	vec.push(i);
     }
     return out;

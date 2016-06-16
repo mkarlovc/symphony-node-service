@@ -5,10 +5,18 @@ var parse = require('./lib/parse.js');
 var bodyParser = require('body-parser');
 var fs = require('fs');
 
+var allowCrossDomain = function(req, res, next) {
+    res.header('Access-Control-Allow-Origin', 'example.com');
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    next();
+}
+
 app.use(express.static('public'));
 app.use(express.static('files'));
 app.use(bodyParser.json({limit: '50mb', parameterLimit: 100000}));       // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({limit: '50mb', parameterLimit: 100000, extended: true})); // to support URL-encoded bodies
+app.use(allowCrossDomain);
 
 app.post('/nc', function(req, res) {
     var data = req.body;
@@ -18,8 +26,8 @@ app.post('/nc', function(req, res) {
     console.log(indicator);
     console.log(socialMedia);
 
-    var fsIndicator = {"win":2, "win_val": true, "true": true, "sum":true, "avg":true, "der":1};
-    var fsSm = {"win":2, "win_val": true, "true": true, "sum":true, "avg":true};
+    var fsIndicator = {"win":5, "win_val": true, "true": true, "sum":true, "avg":true, "der":1};
+    var fsSm = {"win":5, "win_val": true, "true": true, "sum":true, "avg":true};
 
     var indicatorF = parse.extract_series_json(indicator, fsIndicator, "ind");
     var smFs = [];
@@ -41,11 +49,11 @@ app.post('/nc', function(req, res) {
 
     var j=0;
     for (var i=pred.length-1; i>=0; i--) {
-        pred[i].time = allTicks[allTicks.length-1-j];
+        pred[i].date = allTicks[allTicks.length-1-j];
         j += 1;
     }
 
-    res.send({"pred":pred, "mse": mse});
+    res.send({"prediction":pred, "validation":{"MSE": mse}});
 });
  
 app.get('/', function (req, res) {
