@@ -4,6 +4,7 @@ var analytics = require('qminer').analytics;
 exports.base;
 
 exports.create_featurespace = function(ext) {
+
     if (ext.length == 0) {
 	console.log("Expected array with at least one element.");
         return;
@@ -23,11 +24,12 @@ exports.create_featurespace = function(ext) {
     for (var i=1; i<fields.length; i++) {
         ftr.addFeatureExtractor({ "type": "numeric", "source": "FtrSpace", "field": fields[i].name, "null": true });
     }
-    
+    this.base.close();
     return ftr;	
 }
 
 exports.add_data = function(ext, ftr) {
+	this.base = new qm.Base({mode: 'open'});
     if (ext.length == 0) {
         console.log("Expected array with at least one element.");
         return;
@@ -40,6 +42,7 @@ exports.add_data = function(ext, ftr) {
     
     ftr.updateRecords(Store.allRecords);
     var matrix = ftr.extractMatrix(Store.allRecords);
+	this.base.close()
     return matrix;
 }
 

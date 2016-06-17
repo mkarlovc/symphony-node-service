@@ -1,5 +1,3 @@
-var qminer = require('qminer');
-
 function clone(obj) {
     if (null == obj || "object" != typeof obj) return obj;
     var copy = obj.constructor();
