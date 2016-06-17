@@ -6,7 +6,7 @@
 		$.getJSON( "./data/test1.json", function( data ) {
 			$.ajax({
 				type: 'POST',
-				url: 'nc',
+				url: 'http://pankretas.ijs.si:3001/nc',
 				data: data,
 				success: function(msg){
 					$('body').append(JSON.stringify(msg));

@@ -75,3 +75,26 @@ exports.svr = function(matrix) {
     }
     return out;
 }
+
+exports.rrg = function(matrix) {
+    var learning = matrix.getSubmatrix(1,matrix.rows,0,matrix.cols);
+    var targets = matrix.getRow(0);
+    var SVR = new analytics.RidgeReg({ gamma: 1.0 });
+    var vec = [0];
+    var out = [];
+    for (var i=1; i<learning.cols; i++) {
+        console.log(i+"/"+(parseInt(learning.cols)-1.0));
+        var mat = learning.getSubmatrix(0, learning.rows, 0, i);
+        var tar = targets.subVec(vec);
+        if (i < 10 || i%20==0) {
+            SVR.fit(mat, tar);
+        }
+        var test = learning.getCol(i);
+        var prediction = SVR.predict(test);
+        console.log({"count": prediction, "actual": targets.at(i)});
+        out.push({"count": prediction, "actual": targets.at(i)});
+        vec.push(i);
+    }
+    return out;
+}
+
