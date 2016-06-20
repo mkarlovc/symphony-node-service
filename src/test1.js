@@ -21,13 +21,13 @@ var tp = parse.extract_series_json(tp, fs2, "tp");
 
 
 var allFeatures = parse.get_feature_set([index, c1, c2, tp]);
-var allTicks = parse.get_ticks([index, c1, c2, tp]);
+var allTicks = parse.get_ticks([index]);
 
 var ext = parse.extract([index, c1, c2, tp], allTicks, allFeatures);
 
 var ftr = analytics.create_featurespace(parse.to_array(ext));
 var mat = analytics.add_data(parse.to_array(ext), ftr);
-var pred = analytics.svr(mat);
+var pred = analytics.rrg(mat);
 
 for (var i=0; i<allTicks; i++) {
     console.log(allTicks[i]);

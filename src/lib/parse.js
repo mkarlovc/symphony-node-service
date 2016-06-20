@@ -154,6 +154,8 @@ exports.extract = function(efs, ticks, features) {
                 }
             }
         }
+	// to make missing values equal to previous values
+	newObj = gf;
         gfs[ticks[i]] = gf;
 		// for prev value missing values
 		newObj = gf;
