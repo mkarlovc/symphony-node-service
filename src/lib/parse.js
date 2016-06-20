@@ -78,13 +78,13 @@ exports.get_feature_set = function(efss) {
     var gfs = [];
     for (var i=0; i<efss.length; i++) {
         efs = efss[i];
-	for (var index in efs) {
-	    var ef = efs[index];
+	    for (var index in efs) {
+	        var ef = efs[index];
             for (var property in ef) {
 	        if (gfs.indexOf(property) == -1) {
                     gfs.push(property);
+	            }
 	        }
-	    }
         }
     }
     return gfs;
