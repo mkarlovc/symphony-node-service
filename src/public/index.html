@@ -2,6 +2,21 @@
 <head>
     <script src="http://code.jquery.com/jquery-1.7.2.min.js" type="text/javascript"></script>
     <script>	
+	
+	function testAr() {
+		$.getJSON( "./data/test1.json", function( data ) {
+			$.ajax({
+				type: 'POST',
+				url: 'http://pankretas.ijs.si:3001/ar',
+				data: data,
+				success: function(msg){
+					$('body').append(JSON.stringify(msg));
+				}
+			});
+			
+		});
+	}
+	
 	function testPost() {
 		$.getJSON( "./data/test1.json", function( data ) {
 			$.ajax({
@@ -40,7 +55,8 @@
     </script>
 </head>
 <body>
-    <div id="button" style="width:20px; height:100px;" onclick="javascript:testPost();">POST</div>
+    <div id="button" style="width:20px; height:100px;" onclick="javascript:testAr();">AR</div>
+    <div id="button" style="width:20px; height:100px;" onclick="javascript:testPost();">NC</div>
 	<div id="button" style="width:20px; height:100px;" onclick="javascript:testOpec();">OPEC</div>
 	<div id="button" style="width:20px; height:100px;" onclick="javascript:testOpecFuture();">OPEC FUTRUE</div>
 </body>
