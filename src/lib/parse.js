@@ -9,42 +9,43 @@ function clone(obj) {
 
 exports.extract_series_json = function(ts, fs, lbl) {
     var efs = {};
+	
     for (var i=fs.win; i<ts.length; i++) {
         var ef = {};
 
         // true value
         if (fs.hasOwnProperty("true")) {
-	    if (fs["true"]) {
+	        if (fs["true"]) {
                 ef["true_"+lbl] = parseFloat(ts[i].count);
-	    }
+	        }
         }
         // moving window
         if (fs.hasOwnProperty("win_val")) {
-	    if (fs["win_val"]) {
+	        if (fs["win_val"]) {
                 for (var j=1; j<=fs.win; j++ ) {
                     ef["win_"+j+"_"+lbl] = parseFloat(ts[i-j].count);
                 }
-	    }
+	        }
         }
         // simple moving sum
         if (fs.hasOwnProperty("sum")) {
-	    if (fs["sum"]) {
+	        if (fs["sum"]) {
                 var smsum = 0.0;
                 for (var j=1; j<=fs.win; j++ ) {
                     smsum += parseFloat(ts[i-j].count);
                 }
                 ef["sum_"+lbl] = smsum;
-	    }
+	        }
         }
         // simple moving avg
         if (fs.hasOwnProperty("avg")) {
-	    if (fs["avg"]) {
+	        if (fs["avg"]) {
                 var smsum = 0.0;
                 for (var j=1; j<=fs.win; j++ ) {
                     smsum += parseFloat(ts[i-j].count);
                 }
                 ef["avg_"+lbl] = parseFloat(smsum)/parseFloat(fs.win);
-	    }
+	        }
         }
         // derivative
         if (fs.hasOwnProperty("der")) {
@@ -52,6 +53,20 @@ exports.extract_series_json = function(ts, fs, lbl) {
             for (var j=1; j<=fs.der; j++ ) {
                 ef["der_"+j+"_"+lbl] = last - parseFloat(ts[i-1-j].count);
             }
+        }
+		// month
+        if (fs.hasOwnProperty("month")) {
+		    if (fs.month) {
+                var date = new Date(ts[i].date);
+                ef["month_"+lbl] = date.getMonth();
+            }
+		}
+		// day of week
+        if (fs.hasOwnProperty("month")) {
+		    if (fs.day) {
+                var day = new Date(ts[i].date);
+                ef["day_"+lbl] = date.getDay();
+			}
         }
         // collect
         efs[ts[i].date] = ef;
@@ -75,6 +90,37 @@ exports.get_feature_set = function(efss) {
     return gfs;
 };
 
+function zeroPad(num, places) {
+  var zero = places - num.toString().length + 1;
+  return Array(+(zero > 0 && zero)).join("0") + num;
+}
+
+exports.ticks_from_json = function(json) {
+    var gfs = [];
+    for (var i=0; i<json.length; i++) {
+        gfs.push(json[i]['date']);
+    }
+	gfs.sort();
+    return gfs;
+};
+
+exports.sort_json_by_ticks = function(json) {
+	var gfs = [];
+	var dict = {};
+    for (var i=0; i<json.length; i++) {
+	    if (typeof json[i] != undefined) {
+            gfs.push(json[i].date);
+		    dict[json[i].date] = json[i];
+		}
+    }
+	gfs = gfs.sort();
+	var out = [];
+	for (var i=0; i<gfs.length; i++) {
+	    out.push(dict[gfs[i]]);
+	}
+    return out;
+};
+
 exports.get_ticks = function(efss) {
     var gfs = [];
     for (var i=0; i<efss.length; i++) {
@@ -85,7 +131,7 @@ exports.get_ticks = function(efss) {
             }
         }
     }
-    gfs.sort();
+	gfs.sort();
     return gfs;
 };
 
@@ -94,8 +140,7 @@ exports.extract = function(efs, ticks, features) {
 
     var newObj = {};
     for (var i=0; i<features.length; i++) {
-        //newObj[features[i]] = null;
-	newObj[features[i]] = 0;
+	    newObj[features[i]] = 0;
     }
 
     for (var i=0; i<ticks.length; i++) {
@@ -110,6 +155,8 @@ exports.extract = function(efs, ticks, features) {
             }
         }
         gfs[ticks[i]] = gf;
+		// for prev value missing values
+		newObj = gf;
     }
     return gfs;
 };

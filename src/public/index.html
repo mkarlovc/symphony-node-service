@@ -15,9 +15,33 @@
 			
 		});
 	}
+	
+	function testOpec() {
+		$.ajax({
+			type: 'POST',
+			url: 'http://pankretas.ijs.si:3001/opec',
+			data: {},
+			success: function(msg){
+				$('body').append(JSON.stringify(msg));
+			}
+		});		
+	}
+	
+	function testOpecFuture() {
+		$.ajax({
+			type: 'POST',
+			url: 'http://pankretas.ijs.si:3001/opec_f',
+			data: {steps:7, step: 1},
+			success: function(msg){
+				$('body').append(JSON.stringify(msg));
+			}
+		});		
+	}
     </script>
 </head>
 <body>
     <div id="button" style="width:20px; height:100px;" onclick="javascript:testPost();">POST</div>
+	<div id="button" style="width:20px; height:100px;" onclick="javascript:testOpec();">OPEC</div>
+	<div id="button" style="width:20px; height:100px;" onclick="javascript:testOpecFuture();">OPEC FUTRUE</div>
 </body>
 </html>

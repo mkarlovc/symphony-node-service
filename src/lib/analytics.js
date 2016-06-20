@@ -79,7 +79,7 @@ exports.svr = function(matrix) {
 exports.rrg = function(matrix) {
     var learning = matrix.getSubmatrix(1,matrix.rows,0,matrix.cols);
     var targets = matrix.getRow(0);
-    var SVR = new analytics.RidgeReg({ gamma: 1.0 });
+    var RRG = new analytics.RidgeReg({ gamma: 1.0 });
     var vec = [0];
     var out = [];
     for (var i=1; i<learning.cols; i++) {
@@ -87,10 +87,10 @@ exports.rrg = function(matrix) {
         var mat = learning.getSubmatrix(0, learning.rows, 0, i);
         var tar = targets.subVec(vec);
         if (i < 10 || i%20==0) {
-            SVR.fit(mat, tar);
+            RRG.fit(mat, tar);
         }
         var test = learning.getCol(i);
-        var prediction = SVR.predict(test);
+        var prediction = RRG.predict(test);
         console.log({"count": prediction, "actual": targets.at(i)});
         out.push({"count": prediction, "actual": targets.at(i)});
         vec.push(i);
@@ -98,3 +98,27 @@ exports.rrg = function(matrix) {
     return out;
 }
 
+exports.rrg1 = function(matrix) {
+    var learning = matrix.getSubmatrix(1,matrix.rows,0,matrix.cols);
+    var targets = matrix.getRow(0);
+	
+    var RRG = new analytics.RidgeReg({ gamma: 1.0 });;
+    var out = [];
+    var mat = learning.getSubmatrix(0, learning.rows, 0, learning.cols - 1);
+	var arr = [];
+	for (var i=0; i<targets.length-1; i++) {
+	    arr.push(i);
+	}
+	var tar = targets.subVec(arr);
+       
+    RRG.fit(mat, tar);
+      
+    var test = learning.getCol(learning.cols-1);
+	console.log('target '+targets.at(learning.cols-1));
+    console.log('test '+test.toString());
+    var prediction = RRG.predict(test);
+	
+	console.log({"pred": prediction, "real": targets.at(targets.length-1)});
+	
+    return prediction;
+}
