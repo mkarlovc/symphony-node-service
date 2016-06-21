@@ -64,7 +64,7 @@ exports.svr = function(matrix) {
         console.log(i+"/"+(parseInt(learning.cols)-1.0));
 	var mat = learning.getSubmatrix(0, learning.rows, 0, i);
 	var tar = targets.subVec(vec);
-        if (i < 10 || i%20==0) {
+        if (i < 10 || i%60==0) {
             SVR.fit(mat, tar);
         }
         var test = learning.getCol(i);
