@@ -130,7 +130,7 @@ app.post('/opec_f_news', function(req, res) {
 	var step = data.step; //days
 	
     var indicator = qdata.data.opec;
-    var socData = var socData = [qdata.data.barrel_news, qdata.data.gasoline_news, qdata.data.oil_news, qdata.data.energy_news, qdata.data.dollar_news];
+    var socData = [qdata.data.barrel_news, qdata.data.gasoline_news, qdata.data.oil_news, qdata.data.energy_news, qdata.data.dollar_news];
 	
     var fsIndicator = {"win":5, "win_val": true, "true": true, "sum":true, "avg":true, "der":1, "month": true, "day": true};
  	var fsSm = {"win":5, "win_val": true, "true": true, "sum":true, "avg":true};
@@ -152,7 +152,7 @@ app.post('/opec_f_news', function(req, res) {
         		
 	    var smFs = [];
         
-		for (var j=0; j<socData; j++) {
+		for (var j=0; j<socData.length; j++) {
 	        var sd = parse.sort_json_by_ticks(socData[j]);
             smFs.push(parse.extract_series_json(sd, fsSm, "sd"+(j+1)));
 		}
@@ -210,7 +210,7 @@ app.post('/opec_f_sm', function(req, res) {
         		
 	    var smFs = [];
         
-		for (var j=0; j<socData; j++) {
+		for (var j=0; j<socData.length; j++) {
 	        var sd = parse.sort_json_by_ticks(socData[j]);
             smFs.push(parse.extract_series_json(sd, fsSm, "sd"+(j+1)));
 		}
@@ -268,7 +268,7 @@ app.post('/opec_f_ar', function(req, res) {
         		
 	    var smFs = [];
         
-		for (var j=0; j<socData; j++) {
+		for (var j=0; j<socData.length; j++) {
 	        var sd = parse.sort_json_by_ticks(socData[j]);
             smFs.push(parse.extract_series_json(sd, fsSm, "sd"+(j+1)));
 		}
