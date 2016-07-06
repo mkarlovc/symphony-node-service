@@ -31,21 +31,43 @@
 		});
 	}
 	
-	function testOpec() {
+	function testOpecNews() {
 		$.ajax({
 			type: 'POST',
-			url: 'http://pankretas.ijs.si:3001/opec',
+			url: 'http://pankretas.ijs.si:3001/opec_news',
 			data: {},
 			success: function(msg){
 				$('body').append(JSON.stringify(msg));
 			}
 		});		
 	}
+
+        function testOpecSoc() {
+                $.ajax({
+                        type: 'POST',
+                        url: 'http://pankretas.ijs.si:3001/opec_sm',
+                        data: {},
+                        success: function(msg){
+                                $('body').append(JSON.stringify(msg));
+                        }
+                });             
+        }
+
+        function testOpecAr() {
+                $.ajax({
+                        type: 'POST',
+                        url: 'http://pankretas.ijs.si:3001/opec_ar',
+                        data: {},
+                        success: function(msg){
+                                $('body').append(JSON.stringify(msg));
+                        }
+                });             
+        }
 	
 	function testOpecFutureAr() {
 		$.ajax({
 			type: 'POST',
-			url: 'http://pankretas.ijs.si:3001/opec_f_ar',
+			url: 'http://pankretas:3001/opec_f_ar',
 			data: {steps:7, step: 1},
 			success: function(msg){
 				$('body').append(JSON.stringify(msg));
@@ -79,8 +101,10 @@
 <body>
     <div id="button" style="width:20px; height:100px;" onclick="javascript:testAr();">AR</div>
     <div id="button" style="width:20px; height:100px;" onclick="javascript:testPost();">NC</div>
-	<div id="button" style="width:20px; height:100px;" onclick="javascript:testOpec();">OPEC</div>
-	<div id="button" style="width:20px; height:100px;" onclick="javascript:testOpecFutureAr();">OPEC FUTRUE AR</div>
+	<div id="button" style="width:20px; height:100px;" onclick="javascript:testOpecNews();">OPEC News</div>
+	<div id="button" style="width:20px; height:100px;" onclick="javascript:testOpecSoc();">OPEC Social</div>
+        <div id="button" style="width:20px; height:100px;" onclick="javascript:testOpecAr();">OPEC AR</div>
+        <div id="button" style="width:20px; height:100px;" onclick="javascript:testOpecFutureAr();">OPEC FUTRUE AR</div>
 	<div id="button" style="width:20px; height:100px;" onclick="javascript:testOpecFutureNews();">OPEC FUTRUE NEWS</div>
 	<div id="button" style="width:20px; height:100px;" onclick="javascript:testOpecFutureSoc();">OPEC FUTRUE SOC</div>
 </body>
