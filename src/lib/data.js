@@ -28,6 +28,3 @@ exports.data.dollar_news = JSON.parse(fs.readFileSync('../data/opec/Dollar.news.
 exports.data.energy_news = JSON.parse(fs.readFileSync('../data/opec/Energy.news.json', 'utf8'));
 exports.data.gasoline_news = JSON.parse(fs.readFileSync('../data/opec/Gasoline.news.json', 'utf8'));
 exports.data.oil_news = JSON.parse(fs.readFileSync('../data/opec/Oil.news.json', 'utf8'));
-
-
-
