@@ -74,12 +74,34 @@
 			}
 		});		
 	}
+
+    function testOpecFutureArEnd() {
+		$.ajax({
+			type: 'POST',
+			url: 'http://pankretas:3001/opec_f_ar',
+			data: {step: 1, start: '2016-05-10', end: '2016-05-20'},
+			success: function(msg){
+				$('body').append(JSON.stringify(msg));
+			}
+		});		
+	}
 	
 	function testOpecFutureNews() {
 		$.ajax({
 			type: 'POST',
 			url: 'http://pankretas.ijs.si:3001/opec_f_news',
 			data: {steps:7, step: 1},
+			success: function(msg){
+				$('body').append(JSON.stringify(msg));
+			}
+		});		
+	}
+	
+	function testOpecFutureNewsEnd() {
+		$.ajax({
+			type: 'POST',
+			url: 'http://pankretas.ijs.si:3001/opec_f_news',
+			data: {step: 1, start: '2016-05-10', end: '2016-05-20'},
 			success: function(msg){
 				$('body').append(JSON.stringify(msg));
 			}
@@ -96,16 +118,31 @@
 			}
 		});		
 	}
+	
+	function testOpecFutureSocEnd() {
+		$.ajax({
+			type: 'POST',
+			url: 'http://pankretas.ijs.si:3001/opec_f_sm',
+			data: {step: 1, start: '2016-05-10', end: '2016-05-20'},
+			success: function(msg){
+				$('body').append(JSON.stringify(msg));
+			}
+		});		
+	}
+	
     </script>
 </head>
 <body>
-    <div id="button" style="width:20px; height:100px;" onclick="javascript:testAr();">AR</div>
-    <div id="button" style="width:20px; height:100px;" onclick="javascript:testPost();">NC</div>
-	<div id="button" style="width:20px; height:100px;" onclick="javascript:testOpecNews();">OPEC News</div>
-	<div id="button" style="width:20px; height:100px;" onclick="javascript:testOpecSoc();">OPEC Social</div>
-        <div id="button" style="width:20px; height:100px;" onclick="javascript:testOpecAr();">OPEC AR</div>
-        <div id="button" style="width:20px; height:100px;" onclick="javascript:testOpecFutureAr();">OPEC FUTRUE AR</div>
-	<div id="button" style="width:20px; height:100px;" onclick="javascript:testOpecFutureNews();">OPEC FUTRUE NEWS</div>
-	<div id="button" style="width:20px; height:100px;" onclick="javascript:testOpecFutureSoc();">OPEC FUTRUE SOC</div>
+    <div id="button" style="width:80px; height:100px;" onclick="javascript:testAr();">AR</div>
+    <div id="button" style="width:80px; height:100px;" onclick="javascript:testPost();">NC</div>
+	<div id="button" style="width:80px; height:100px;" onclick="javascript:testOpecNews();">OPEC News</div>
+	<div id="button" style="width:80px; height:100px;" onclick="javascript:testOpecSoc();">OPEC Social</div>
+    <div id="button" style="width:80px; height:100px;" onclick="javascript:testOpecAr();">OPEC AR</div>
+    <div id="button" style="width:80px; height:100px;" onclick="javascript:testOpecFutureAr();">OPEC FUTRUE AR</div>
+	<div id="button" style="width:80px; height:100px;" onclick="javascript:testOpecFutureArEnd();">OPEC FUTRUE AR Start - End</div>
+	<div id="button" style="width:80px; height:100px;" onclick="javascript:testOpecFutureNews();">OPEC FUTRUE NEWS</div>
+	<div id="button" style="width:80px; height:100px;" onclick="javascript:testOpecFutureNewsEnd();">OPEC FUTRUE NEWS Start - End</div>
+	<div id="button" style="width:80px; height:100px;" onclick="javascript:testOpecFutureSoc();">OPEC FUTRUE SOC</div>
+	<div id="button" style="width:80px; height:100px;" onclick="javascript:testOpecFutureSocEnd();">OPEC FUTRUE SOC Start - End</div>
 </body>
 </html>
