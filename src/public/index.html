@@ -79,7 +79,7 @@
 		$.ajax({
 			type: 'POST',
 			url: 'http://pankretas:3001/opec_f_ar',
-			data: {step: 1, start: '2016-05-10', end: '2016-05-20'},
+			data: {step: 1, start: '2016-09-01', end: '2016-09-20'},
 			success: function(msg){
 				$('body').append(JSON.stringify(msg));
 			}
@@ -101,7 +101,7 @@
 		$.ajax({
 			type: 'POST',
 			url: 'http://pankretas.ijs.si:3001/opec_f_news',
-			data: {step: 1, start: '2016-05-10', end: '2016-05-20'},
+			data: {step: 1, start: '2016-09-01', end: '2016-09-20'},
 			success: function(msg){
 				$('body').append(JSON.stringify(msg));
 			}
@@ -123,7 +123,7 @@
 		$.ajax({
 			type: 'POST',
 			url: 'http://pankretas.ijs.si:3001/opec_f_sm',
-			data: {step: 1, start: '2016-05-10', end: '2016-05-20'},
+			data: {step: 1, start: '2016-09-01', end: '2016-09-20'},
 			success: function(msg){
 				$('body').append(JSON.stringify(msg));
 			}
